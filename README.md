@@ -1,164 +1,258 @@
-# StudyBuddyagent
-An AI-powered study assistant backend built with **FastAPI**, **LangGraph**, and **RAG**.
-It lets users chat with a tutor agent, upload notes/PDFs, get answers grounded in their own
-material, and auto-generate quizzes and flashcards.
+# 🦉 StudyBuddyAgent
 
-## Stack
+An AI-powered study assistant that combines FastAPI, LangGraph, Retrieval-Augmented Generation (RAG), and modern React UI to help students learn more effectively.
 
-| Concern         | Technology                                      |
-|------------------|--------------------------------------------------|
-| API framework    | FastAPI                                          |
-| Agent framework  | LangGraph + LangChain                            |
-| LLM              | Groq (`llama-3.3-70b-versatile` by default)      |
-| Embeddings       | HuggingFace `sentence-transformers` (local, free)|
-| Vector store     | ChromaDB (persisted to disk)                     |
-| Database         | MongoDB (via Motor, async)                       |
-| Auth             | JWT (access + refresh tokens), bcrypt hashing    |
+Users can:
 
-## Project Structure
+* Chat with an AI tutor
+* Upload notes and PDFs
+* Get answers grounded in their own study material
+* Generate quizzes automatically
+* Create flashcards from notes
+* Manage learning sessions with authentication
 
-```
+---
+
+# 🚀 Features
+
+## AI Tutor Chat
+
+* LangGraph-powered agent workflow
+* Context-aware conversations
+* Session memory stored in MongoDB
+* Tool calling support
+
+## Retrieval-Augmented Generation (RAG)
+
+* Upload notes and PDFs
+* Automatic text chunking and embedding
+* Semantic search using ChromaDB
+* Answers grounded in user content
+
+## Quiz Generator
+
+* Generate multiple-choice questions
+* Create quizzes from specific notes
+* Study-wide quiz generation
+
+## Flashcard Generation
+
+* AI-generated flashcards
+* Quick revision workflow
+
+## Authentication
+
+* JWT Access Tokens
+* Refresh Tokens
+* Password hashing with bcrypt
+
+---
+
+# 🛠 Tech Stack
+
+## Backend
+
+| Component       | Technology                        |
+| --------------- | --------------------------------- |
+| API Framework   | FastAPI                           |
+| Agent Framework | LangGraph + LangChain             |
+| LLM             | Groq (Llama 3.3 70B Versatile)    |
+| Embeddings      | HuggingFace Sentence Transformers |
+| Vector Database | ChromaDB                          |
+| Database        | MongoDB                           |
+| Authentication  | JWT + bcrypt                      |
+
+## Frontend
+
+| Component          | Technology      |
+| ------------------ | --------------- |
+| Framework          | React 18        |
+| Build Tool         | Vite            |
+| Styling            | Tailwind CSS    |
+| Routing            | React Router v6 |
+| Markdown Rendering | react-markdown  |
+| HTTP Client        | Axios           |
+
+---
+
+# 📁 Project Structure
+
+```text
 backend/
 ├── app/
-│   ├── api/            # Route definitions + router aggregation
-│   ├── agent/           # LangGraph agent: state, nodes, graph, prompts, memory
-│   ├── tools/            # Agent tools: calculator, word_count, pdf_reader, search, flashcard
-│   ├── database/        # MongoDB connection, models, Pydantic schemas
-│   ├── services/        # LLM, embeddings, vectorstore, RAG orchestration
-│   ├── core/             # Config, security (JWT/hashing), logging
-│   ├── utils/            # Shared constants and helper functions
-│   └── main.py           # FastAPI app entrypoint
-├── uploads/              # Uploaded files (PDFs, etc.)
-├── chroma_db/            # Persisted Chroma vector store
-├── tests/                # Pytest suite
+│   ├── api/
+│   ├── agent/
+│   ├── tools/
+│   ├── database/
+│   ├── services/
+│   ├── core/
+│   ├── utils/
+│   └── main.py
+├── uploads/
+├── chroma_db/
+├── tests/
 └── requirements.txt
+
+frontend/
+├── src/
+│   ├── api/
+│   ├── components/
+│   ├── pages/
+│   ├── hooks/
+│   ├── context/
+│   ├── App.jsx
+│   └── main.jsx
 ```
 
-## Setup
+---
 
-1. **Install dependencies**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
+# ⚙️ Backend Setup
 
-2. **Configure environment**
-   Copy `.env` and fill in real values, at minimum:
-   ```
-   GROQ_API_KEY=your_real_groq_key
-   JWT_SECRET_KEY=a_long_random_secret
-   MONGODB_URI=mongodb://localhost:27017
-   ```
-
-3. **Run MongoDB** locally (or point `MONGODB_URI` at a hosted instance, e.g. MongoDB Atlas).
-
-4. **Start the server**
-   ```bash
-   uvicorn app.main:app --reload
-   ```
-   API docs available at `http://localhost:8000/docs`.
-
-## Core Flows
-
-### Chat (RAG-grounded agent)
-`POST /api/chat` — sends a message to the LangGraph agent. The agent:
-1. Retrieves relevant chunks from the user's notes (if `use_rag=true`).
-2. Reasons over the message + context, optionally calling tools (calculator, word count,
-   web search, flashcard generator).
-3. Persists the conversation turn to MongoDB for session continuity.
-
-### Notes
-`POST /api/notes` — save a text note (auto-indexed into the vector store).
-`POST /api/notes/upload` — upload a PDF/txt/md file; text is extracted and indexed.
-`GET/PUT/DELETE /api/notes/{id}` — manage notes (deleting also removes its vector chunks).
-
-### Quiz
-`POST /api/quiz/generate` — generates multiple-choice questions from a specific note,
-or from retrieved context across all of the user's notes if no `note_id` is given.
-
-### Auth
-`POST /api/auth/register`, `/login`, `/refresh`, `GET /api/auth/me` — standard JWT flow.
-Pass the access token as `Authorization: Bearer <token>` on protected routes.
-
-## Testing
+## Create Virtual Environment
 
 ```bash
-pytest -v
+python -m venv venv
 ```
 
-## Notes on Scaling
+### Windows
 
-- Embeddings run **locally on CPU** by default (`sentence-transformers/all-MiniLM-L6-v2`).
-  Swap `EMBEDDING_MODEL` in `.env` for a larger model if you need better retrieval quality,
-  or move embedding to a GPU worker for higher throughput.
-- The web search tool falls back to a no-API-key DuckDuckGo scrape; set `SEARCH_API_KEY`
-  (Serper.dev) in `.env` for more reliable results.
-- Chroma persists to disk (`chroma_db/`) by default; swap for a hosted Chroma/Qdrant/Pinecone
-  instance for multi-instance deployments.
+```bash
+venv\Scripts\activate
+```
 
-🦉 StudyBuddy Frontend
+### Linux/Mac
 
-AI-powered study agent built with React + Vite + Tailwind CSS.
+```bash
+source venv/bin/activate
+```
 
-## Quick Start
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+JWT_SECRET_KEY=your_secret_key
+MONGODB_URI=mongodb://localhost:27017
+```
+
+## Start Backend
+
+```bash
+uvicorn app.main:app --reload
+```
+
+API Documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+# 🎨 Frontend Setup
+
+Install dependencies:
 
 ```bash
 npm install
-npm run dev
 ```
 
-Open http://localhost:5173
-
-## Structure
-
-```
-src/
-├── api/
-│   └── axios.js          # Axios instance with auth interceptors
-├── components/
-│   ├── ChatBox.jsx        # Scrollable message list
-│   ├── ChatInput.jsx      # Textarea + send/abort button
-│   ├── Sidebar.jsx        # Session list, subject & mode pickers
-│   ├── Navbar.jsx         # Top bar with session info
-│   ├── Message.jsx        # Individual chat bubble (user / AI)
-│   ├── Markdown.jsx       # Renders AI markdown responses
-│   └── Loader.jsx         # TypingDots, Spinner, PageLoader
-├── pages/
-│   ├── Home.jsx           # Onboarding — pick subject/mode/topic
-│   ├── Login.jsx          # Sign in / Sign up
-│   └── Chat.jsx           # Main chat layout (Sidebar + messages)
-├── hooks/
-│   └── useChat.js         # All chat logic, API calls, session mgmt
-├── context/
-│   └── ChatContext.jsx    # Global state via useReducer
-├── App.jsx                # Router + auth guard
-├── main.jsx               # Entry point
-└── index.css              # Tailwind + custom design tokens
-```
-
-## Environment
-
-Create a `.env` file to point at your backend:
+Create `.env`:
 
 ```env
 VITE_API_URL=http://localhost:8000/api
 ```
 
-Without a backend, the app falls back to calling the Anthropic API directly.
+Run development server:
 
-## Backend API contract
-
-```
-POST /api/auth/login    { email, password }       → { token, user }
-POST /api/auth/signup   { name, email, password } → { token, user }
-POST /api/chat          { session_id, subject, mode, messages } → { content }
+```bash
+npm run dev
 ```
 
-## Tech Stack
+Frontend:
 
-- React 18 + React Router v6
-- Vite 5
-- Tailwind CSS 3
-- react-markdown + remark-gfm
-- Axios
+```text
+http://localhost:5173
+```
+
+---
+
+# 🔌 API Endpoints
+
+## Authentication
+
+```http
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/refresh
+GET  /api/auth/me
+```
+
+## Chat
+
+```http
+POST /api/chat
+```
+
+## Notes
+
+```http
+POST   /api/notes
+POST   /api/notes/upload
+GET    /api/notes/{id}
+PUT    /api/notes/{id}
+DELETE /api/notes/{id}
+```
+
+## Quiz
+
+```http
+POST /api/quiz/generate
+```
+
+---
+
+# 🧠 Core Workflow
+
+1. User uploads notes or PDFs.
+2. Documents are embedded using HuggingFace models.
+3. Embeddings are stored in ChromaDB.
+4. User sends a query.
+5. Relevant document chunks are retrieved.
+6. LangGraph agent reasons over retrieved context.
+7. Tools may be invoked when needed.
+8. Final response is returned and conversation is stored.
+
+---
+
+# 📈 Scaling Notes
+
+* Upgrade embedding models for better retrieval quality.
+* Move embedding generation to GPU workers.
+* Replace local ChromaDB with hosted solutions such as Qdrant, Pinecone, or Chroma Cloud.
+* Use MongoDB Atlas for production deployments.
+* Add Redis caching for improved response times.
+
+---
+
+# 🧪 Testing
+
+```bash
+pytest -v
+```
+
+---
+
+# 👨‍💻 Author
+
+Ankit Saini
+
+Built using FastAPI, LangGraph, React, RAG, and modern AI engineering practices.
+
