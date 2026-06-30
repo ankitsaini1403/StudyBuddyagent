@@ -1,84 +1,54 @@
-
 # 🦉 StudyBuddyAgent
 
-An AI-powered study assistant that combines FastAPI, LangGraph, Retrieval-Augmented Generation (RAG), and modern React UI to help students learn more effectively.
+An AI-powered study assistant that combines **FastAPI**, **LangGraph**, **Retrieval-Augmented Generation (RAG)**, and a modern **React** UI to help students learn more effectively.
 
-Users can:
+Users can chat with an AI tutor, upload notes and PDFs, get answers grounded in their own study material, generate quizzes automatically, create flashcards from notes, and manage learning sessions with authentication.
 
-* Chat with an AI tutor
-* Upload notes and PDFs
-* Get answers grounded in their own study material
-* Generate quizzes automatically
-* Create flashcards from notes
-* Manage learning sessions with authentication
+## 🔗 Live Demo
 
----
+- **Frontend:** [study-buddyagent-5hmd.vercel.app](https://study-buddyagent-5hmd.vercel.app)
+- **Backend API:** [studybuddyagent-production.up.railway.app](https://studybuddyagent-production.up.railway.app)
+- **API Docs (Swagger):** [studybuddyagent-production.up.railway.app/docs](https://studybuddyagent-production.up.railway.app/docs)
 
-# 🚀 Features
+## ✨ Features
 
-## AI Tutor Chat
+- 🤖 **AI Tutor Chat** — LangGraph-powered agent with context-aware conversations and session memory stored in MongoDB
+- 📄 **Retrieval-Augmented Generation (RAG)** — upload notes and PDFs, get answers grounded in your own material via semantic search
+- 📝 **Quiz Generator** — auto-generate multiple-choice questions from specific notes or your whole study set
+- 🎴 **Flashcard Generation** — turn notes into quick-revision flashcards
+- 🔐 **Authentication** — JWT access + refresh tokens, password hashing with bcrypt
+- 💬 **Multi-session chat** with conversation history tracking
 
-* LangGraph-powered agent workflow
-* Context-aware conversations
-* Session memory stored in MongoDB
-* Tool calling support
+## 🛠 Tech Stack
 
-## Retrieval-Augmented Generation (RAG)
+### Backend
 
-* Upload notes and PDFs
-* Automatic text chunking and embedding
-* Semantic search using ChromaDB
-* Answers grounded in user content
+| Component | Technology |
+|---|---|
+| API Framework | FastAPI |
+| Agent Framework | LangGraph + LangChain |
+| LLM | Groq (Llama 3.3 70B Versatile) |
+| Embeddings | HuggingFace Sentence Transformers |
+| Vector Database | ChromaDB |
+| Database | MongoDB |
+| Authentication | JWT + bcrypt |
+| Deployment | Railway |
 
-## Quiz Generator
+### Frontend
 
-* Generate multiple-choice questions
-* Create quizzes from specific notes
-* Study-wide quiz generation
+| Component | Technology |
+|---|---|
+| Framework | React 18 |
+| Build Tool | Vite |
+| Styling | Tailwind CSS |
+| Routing | React Router v6 |
+| Markdown Rendering | react-markdown |
+| HTTP Client | Axios |
+| Deployment | Vercel |
 
-## Flashcard Generation
+## 📁 Project Structure
 
-* AI-generated flashcards
-* Quick revision workflow
-
-## Authentication
-
-* JWT Access Tokens
-* Refresh Tokens
-* Password hashing with bcrypt
-
----
-
-# 🛠 Tech Stack
-
-## Backend
-
-| Component       | Technology                        |
-| --------------- | --------------------------------- |
-| API Framework   | FastAPI                           |
-| Agent Framework | LangGraph + LangChain             |
-| LLM             | Groq (Llama 3.3 70B Versatile)    |
-| Embeddings      | HuggingFace Sentence Transformers |
-| Vector Database | ChromaDB                          |
-| Database        | MongoDB                           |
-| Authentication  | JWT + bcrypt                      |
-
-## Frontend
-
-| Component          | Technology      |
-| ------------------ | --------------- |
-| Framework          | React 18        |
-| Build Tool         | Vite            |
-| Styling            | Tailwind CSS    |
-| Routing            | React Router v6 |
-| Markdown Rendering | react-markdown  |
-| HTTP Client        | Axios           |
-
----
-
-# 📁 Project Structure
-
-```text
+```
 backend/
 ├── app/
 │   ├── api/
@@ -103,108 +73,85 @@ frontend/
 │   ├── context/
 │   ├── App.jsx
 │   └── main.jsx
+└── package.json
 ```
 
----
+## ⚙️ Backend Setup (Local Development)
 
-# ⚙️ Backend Setup
-
-## Create Virtual Environment
-
+**1. Create a virtual environment**
 ```bash
 python -m venv venv
-```
 
-### Windows
-
-```bash
+# Windows
 venv\Scripts\activate
-```
 
-### Linux/Mac
-
-```bash
+# Linux/Mac
 source venv/bin/activate
 ```
 
-## Install Dependencies
-
+**2. Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-## Configure Environment Variables
+**3. Configure environment variables**
 
-Create a `.env` file:
-
+Create a `.env` file in `backend/`:
 ```env
 GROQ_API_KEY=your_groq_api_key
 JWT_SECRET_KEY=your_secret_key
 MONGODB_URI=mongodb://localhost:27017
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
 ```
 
-## Start Backend
-
+**4. Run the backend**
 ```bash
 uvicorn app.main:app --reload
 ```
 
-API Documentation:
+- Backend API: `http://localhost:8000`
+- Swagger Docs: `http://localhost:8000/docs`
 
-```text
-http://localhost:8000/docs
-```
+## 🎨 Frontend Setup (Local Development)
 
----
-
-# 🎨 Frontend Setup
-
-Install dependencies:
-
+**1. Install dependencies**
 ```bash
 npm install
 ```
 
-Create `.env`:
+**2. Configure environment**
 
+Create a `.env` file in `frontend/`:
 ```env
 VITE_API_URL=http://localhost:8000/api
 ```
 
-Run development server:
-
+**3. Run the frontend**
 ```bash
 npm run dev
 ```
 
-Frontend:
+Frontend: `http://localhost:5173`
 
-```text
-http://localhost:5173
+> **Note:** All backend routes are served under the `/api` prefix (e.g. `/api/auth/login`, `/api/chat`). Make sure `VITE_API_URL` includes `/api` at the end, both locally and in your deployment platform's environment variables.
+
+## 🔌 API Endpoints
+
+**Authentication**
 ```
-
----
-
-# 🔌 API Endpoints
-
-## Authentication
-
-```http
 POST /api/auth/register
 POST /api/auth/login
 POST /api/auth/refresh
 GET  /api/auth/me
 ```
 
-## Chat
-
-```http
+**Chat**
+```
 POST /api/chat
 ```
 
-## Notes
-
-```http
+**Notes**
+```
 POST   /api/notes
 POST   /api/notes/upload
 GET    /api/notes/{id}
@@ -212,300 +159,59 @@ PUT    /api/notes/{id}
 DELETE /api/notes/{id}
 ```
 
-## Quiz
-
-```http
+**Quiz**
+```
 POST /api/quiz/generate
 ```
 
----
+Protected routes require:
+```
+Authorization: Bearer <access_token>
+```
 
-# 🧠 Core Workflow
+## 🧠 Core Workflow
 
-1. User uploads notes or PDFs.
-2. Documents are embedded using HuggingFace models.
-3. Embeddings are stored in ChromaDB.
-4. User sends a query.
-5. Relevant document chunks are retrieved.
-6. LangGraph agent reasons over retrieved context.
-7. Tools may be invoked when needed.
-8. Final response is returned and conversation is stored.
+1. User uploads notes or PDFs
+2. Documents are chunked and embedded using HuggingFace models
+3. Embeddings are stored in ChromaDB
+4. User sends a query through the chat interface
+5. Relevant document chunks are retrieved via semantic search
+6. The LangGraph agent reasons over the retrieved context
+7. Tools are invoked when needed (calculator, web search, PDF reader, etc.)
+8. The final response is returned and the conversation is stored in MongoDB
 
----
-
-# 📈 Scaling Notes
-
-* Upgrade embedding models for better retrieval quality.
-* Move embedding generation to GPU workers.
-* Replace local ChromaDB with hosted solutions such as Qdrant, Pinecone, or Chroma Cloud.
-* Use MongoDB Atlas for production deployments.
-* Add Redis caching for improved response times.
-
----
-
-# 🧪 Testing
+## 🧪 Testing
 
 ```bash
 pytest -v
 ```
 
----
+## 📈 Scaling Notes
 
-# 👨‍💻 Author
+- Upgrade embedding models for better retrieval quality
+- Move embedding generation to GPU workers
+- Replace local ChromaDB with a hosted vector store (Qdrant, Pinecone, Chroma Cloud)
+- Use MongoDB Atlas for production deployments
+- Add Redis caching for improved response times
 
-Ankit Saini
+## 🎯 Future Enhancements
 
-Built using FastAPI, LangGraph, React, RAG, and modern AI engineering practices.
+- 🎙️ Voice tutor
+- 📱 Mobile application
+- 🖼️ OCR for images
+- 📊 Learning analytics dashboard
+- 👨‍🏫 Personalized study plans
+- 🌍 Multi-language support
+- 🤖 Multi-agent collaboration
+- 📚 Automatic course generation
 
-=======
-�
-� StudyBuddyAgent
-StudyBuddyAgent is an AI-powered study assistant that helps students learn more effectively through
-conversational tutoring, Retrieval-Augmented Generation (RAG), note management, quiz generation, and
-flashcards.
-Built with FastAPI, LangGraph, React, and modern AI tooling, StudyBuddyAgent enables users to upload
-notes, chat with an intelligent tutor, generate quizzes, and retrieve answers grounded in their own study
-materials.
-✨ Features
-• 
-• 
-• 
-• 
-• 
-• 
-• 
-• 
-• 
-• 
-�
-� AI-powered tutoring assistant
-📄 Upload and analyze PDF, TXT, and Markdown notes
-🔍 Retrieval-Augmented Generation (RAG)
-🧠 Personalized learning experience
-📝 Automatic quiz generation
-🎴 Flashcard generation
-💬 Multi-session chat support
-🔐 JWT Authentication
-📚 Note management system
-📊 Conversation history tracking
-🏗️ Architecture
-Frontend (React + Vite)
-│
-▼
-Backend API (FastAPI)
-│
-▼
-LangGraph Agent
-│
-┌──────┼─────────┐
-▼      
-▼         
-RAG   Tools     
-│
-▼
-ChromaDB
-│
-▼
-Memory
-1
-▼
-MongoDB
-🛠️ Tech Stack
-Layer
-Frontend
-Backend
-Technology
-React 18, Vite, Tailwind CSS
-FastAPI
-Agent Framework LangGraph, LangChain
-LLM
-Groq (Llama 3.3 70B Versatile)
-Embeddings
-HuggingFace Sentence Transformers
-Vector Database
-ChromaDB
-Database
-MongoDB
-Authentication
-JWT + Bcrypt
-API Client
-Axios
-📂 Project Structure
-StudyBuddyAgent/
-│
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   ├── agent/
-│   │   ├── tools/
-│   │   ├── database/
-│   │   ├── services/
-│   │   ├── core/
-│   │   ├── utils/
-│   │   └── main.py
-│   │
-│   ├── uploads/
-│   ├── chroma_db/
-│   ├── tests/
-│   └── requirements.txt
-2
-│
-├── frontend/
-│   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── hooks/
-│   │   ├── context/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   └── package.json
-│
-└── README.md
-🚀 Backend Setup
-1. Create Virtual Environment
-python-m venv venv
-Windows
-venv\Scripts\activate
-Linux / Mac
-source venv/bin/activate
-2. Install Dependencies
-pip install-r requirements.txt
-3. Configure Environment Variables
-Create a 
-.env file:
-3
-GROQ_API_KEY=your_groq_api_key
-JWT_SECRET_KEY=your_secret_key
-MONGODB_URI=mongodb://localhost:27017
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-4. Run Backend
-uvicorn app.main:app--reload
-Backend API:
-http://localhost:8000
-Swagger Documentation:
-http://localhost:8000/docs
-🎨 Frontend Setup
-Install Dependencies
-npm install
-Configure Environment
-Create a 
-.env file:
-VITE_API_URL=http://localhost:8000/api
-Run Frontend
-npm run dev
-4
-Frontend URL:
-http://localhost:5173
-💬 Core Workflows
-Chat Assistant
-Endpoint
-POST /api/chat
-The LangGraph agent:
-• 
-• 
-• 
-• 
-Retrieves relevant note chunks using RAG
-Uses tools when required
-Maintains conversational memory
-Stores sessions in MongoDB
-Supported Tools
-• 
-• 
-• 
-• 
-• 
-Calculator
-Word Counter
-PDF Reader
-Web Search
-Flashcard Generator
-Notes Management
-Create Note
-POST /api/notes
-Upload Notes
-POST /api/notes/upload
-5
-Supported formats:
-• 
-• 
-• 
-PDF
-TXT
-MD
-Manage Notes
-GET /api/notes/{id}
-PUT /api/notes/{id}
-DELETE /api/notes/{id}
-Quiz Generation
-Endpoint
-POST /api/quiz/generate
-Generates:
-• 
-• 
-• 
-Multiple Choice Questions
-Topic-Based Assessments
-Revision Tests
-🔐 Authentication
-Register
-POST /api/auth/register
-Login
-POST /api/auth/login
-6
-Refresh Token
-POST /api/auth/refresh
-Current User
-GET /api/auth/me
-Protected routes require:
-Authorization: Bearer <access_token>
-🧪 Testing
-Run all tests:
-pytest-v
-📈 Scalability Notes
-• 
-• 
-• 
-• 
-• 
-• 
-• 
-• 
-Embeddings run locally by default.
-Easily switch to larger embedding models.
-ChromaDB can be replaced with:
-Qdrant
-Pinecone
-Hosted Chroma
-MongoDB Atlas supported.
-Serper API can be used for improved web search quality.
-🎯 Future Enhancements
-• 
-• 
-• 
-• 
-�
-�️ Voice Tutor
-📱 Mobile Application
-🖼️ OCR for Images
-📊 Learning Analytics Dashboard
-7
-• 
-• 
-• 
-• 
-�
-�‍🏫 Personalized Study Plans
-🌍 Multi-Language Support
-🤖 Multi-Agent Collaboration
-📚 Automatic Course Generation
-👨‍💻 Author
-Ankit Saini
+## 👨‍💻 Author
+
+**Ankit Saini**
 B.Tech Student | Full Stack Developer | AI Enthusiast
-GitHub: https://github.com/ankitsaini1403
-⭐ Support
-If you find this project useful, please consider giving it a star on GitHub.
-Happy Learning! 🚀📚
+GitHub: [github.com/ankitsaini1403](https://github.com/ankitsaini1403)
+
+## ⭐ Support
+
+If you find this project useful, consider giving it a star on GitHub. Happy learning! 🚀📚
 
