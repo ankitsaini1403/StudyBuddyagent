@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # 🦉 StudyBuddyAgent
 
 An AI-powered study assistant that combines FastAPI, LangGraph, Retrieval-Augmented Generation (RAG), and modern React UI to help students learn more effectively.
@@ -508,4 +508,4 @@ GitHub: https://github.com/ankitsaini1403
 ⭐ Support
 If you find this project useful, please consider giving it a star on GitHub.
 Happy Learning! 🚀📚
->>>>>>> d3b38dc (frontend ready for deployment)
+
