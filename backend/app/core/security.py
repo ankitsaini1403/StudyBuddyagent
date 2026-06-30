@@ -14,14 +14,14 @@ from app.core.config import settings
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
-
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    password_bytes = password.encode("utf-8")[:72]
+    return pwd_context.hash(password_bytes)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
-
+    password_bytes = plain_password.encode("utf-8")[:72]
+    return pwd_context.verify(password_bytes, hashed_password)
 
 def create_token(subject: str, expires_delta: timedelta, token_type: str = "access") -> str:
     now = datetime.now(timezone.utc)
