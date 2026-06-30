@@ -1,0 +1,37 @@
+# FastAPI
+fastapi==0.116.1
+uvicorn[standard]==0.35.0
+pydantic==2.11.7
+pydantic-settings==2.10.1
+python-dotenv==1.1.1
+
+# LLM / Agent
+groq==0.31.0
+langchain==0.3.27
+langgraph==0.6.4
+langchain-groq==0.3.7
+
+# RAG
+langchain-community==0.3.29
+langchain-huggingface==0.3.1
+langchain-chroma==0.2.5
+langchain-text-splitters==0.3.9
+sentence-transformers==5.0.0
+chromadb==1.0.20
+pypdf==5.9.0
+
+# Database
+motor==3.7.1
+pymongo==4.13.2
+
+# Auth
+python-jose[cryptography]==3.5.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.20
+
+# Utils
+httpx==0.28.1
+tenacity==9.1.2
+
+#email_validator
+email-validator
