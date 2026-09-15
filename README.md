@@ -6,9 +6,9 @@ Users can chat with an AI tutor, upload notes and PDFs, get answers grounded in 
 
 ## 🔗 Live Demo
 
-- **Frontend:** [study-buddyagent.vercel.app](https://study-buddyagent.vercel.app/login)
-- **Backend API:** [studybuddyagent-production.up.railway.app](https://studybuddyagent-production-dcfc.up.railway.app/)
-- **API Docs (Swagger):** [studybuddyagent-production.up.railway.app/docs](https://studybuddyagent-production-dcfc.up.railway.app/docs)
+- **Frontend:** [study-buddyagent.vercel.app](https://study-buddyagent-5hmd.vercel.app/)
+- **Backend API:** [studybuddyagent-production.up.railway.app](studybuddyagent-production-37de.up.railway.app)
+- **API Docs (Swagger):** [studybuddyagent-production.up.railway.app/docs](studybuddyagent-production-37de.up.railway.app/docs)
 
 ## ✨ Features
 
