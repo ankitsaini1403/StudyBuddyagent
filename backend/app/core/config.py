@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
     # --- Groq (LLM) ---
     GROQ_API_KEY: str
-    GROQ_MODEL: str = "llama-3.1-8b-instant"
+    GROQ_MODEL: str = "openai/gpt-oss-20b"
 
     # --- HuggingFace Embeddings ---
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
