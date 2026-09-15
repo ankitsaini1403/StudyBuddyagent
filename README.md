@@ -6,7 +6,7 @@ Users can chat with an AI tutor, upload notes and PDFs, get answers grounded in 
 
 ## 🔗 Live Demo
 
-- **Frontend:** [study-buddyagent-5hmd.vercel.app](https://study-buddyagent-5hmd.vercel.app)
+- **Frontend:** [study-buddyagent.vercel.app](study-buddyagent.vercel.app)
 - **Backend API:** [studybuddyagent-production.up.render.app](https://studybuddyagent.onrender.com)
 - **API Docs (Swagger):** [studybuddyagent-production.up.render.app/docs](https://studybuddyagent.onrender.com/docs)
 
