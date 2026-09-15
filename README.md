@@ -6,9 +6,9 @@ Users can chat with an AI tutor, upload notes and PDFs, get answers grounded in 
 
 ## 🔗 Live Demo
 
-- **Frontend:** [study-buddyagent-5hmd.vercel.app](https://study-buddyagent-5hmd.vercel.app)
-- **Backend API:** [studybuddyagent-production.up.railway.app](https://studybuddyagent-production.up.railway.app)
-- **API Docs (Swagger):** [studybuddyagent-production.up.railway.app/docs](https://studybuddyagent-production.up.railway.app/docs)
+- **Frontend:** [study-buddyagent.vercel.app](https://study-buddyagent.vercel.app/login)
+- **Backend API:** [studybuddyagent-production.up.railway.app](https://studybuddyagent-production-dcfc.up.railway.app/)
+- **API Docs (Swagger):** [studybuddyagent-production.up.railway.app/docs](https://studybuddyagent-production-dcfc.up.railway.app/docs)
 
 ## ✨ Features
 
@@ -32,7 +32,7 @@ Users can chat with an AI tutor, upload notes and PDFs, get answers grounded in 
 | Vector Database | ChromaDB |
 | Database | MongoDB |
 | Authentication | JWT + bcrypt |
-| Deployment | Railway |
+| Deployment | railway |
 
 ### Frontend
 
