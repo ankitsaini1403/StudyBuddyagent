@@ -6,10 +6,18 @@ const api = axios.create({
   timeout: 60000,
 })
 
+if (!import.meta.env.VITE_API_URL) {
+  console.error('VITE_API_URL is not set! API calls will fail.')
+}
+
 // Attach auth token if stored
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('sb_token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
+  try {
+    const token = localStorage.getItem('sb_token')
+    if (token) config.headers.Authorization = `Bearer ${token}`
+  } catch (e) {
+    console.warn('localStorage unavailable, continuing without token:', e)
+  }
   return config
 })
 
